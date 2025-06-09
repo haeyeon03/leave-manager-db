@@ -1,0 +1,22 @@
+# Java class files
+*.class
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+
+# Build folders
+/bin/
+build/
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# macOS system files
+.DS_Store
+
+# Preferences files
+*.prefs
