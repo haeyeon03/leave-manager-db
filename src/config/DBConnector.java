@@ -11,10 +11,10 @@ import java.util.Properties;
 
 public class DBConnector {
 
-	// DB 연결
-	public static Connection getConnection() {
+	private static Connection con;
+
+	public static void openConnection() throws Exception {
 		Properties properties = new Properties();
-		Connection con = null;
 
 		try {
 			FileInputStream fis = new FileInputStream("src/config/db.properties");
@@ -27,26 +27,15 @@ public class DBConnector {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, id, pwd);
 		} catch (IOException e) {
-			System.out.println("[파일 로딩 오류: " + e.toString() + "]");
+			throw e;
 		} catch (ClassNotFoundException e) {
-			System.out.println("[JDBC 드라이버 오류: " + e.toString() + "]");
+			throw e;
 		} catch (SQLException e) {
-			System.out.println("[DB 연결 오류: " + e.toString() + "]");
-		}
-		return con;
-	}
-
-	// 연결 상태 출력
-	public static boolean connectionStatus(Connection con) {
-		if (con != null) {
-			return true;
-		} else {
-			return false;
+			throw e;
 		}
 	}
 
-	// 자원 반납 (Connection, PreparedStatement, ResultSet)
-	public static void dbClose(PreparedStatement pstmt, ResultSet rs) {
+	public static void closeResources(PreparedStatement pstmt, ResultSet rs) {
 		if (pstmt != null) {
 			try {
 				pstmt.close();
@@ -63,8 +52,7 @@ public class DBConnector {
 		}
 	}
 
-	// 자원 반납 (Connection, PreparedStatement)
-	public static void dbClose(Connection con) {
+	public static void closeConnection() {
 		if (con != null) {
 			try {
 				con.close();
@@ -72,6 +60,9 @@ public class DBConnector {
 				e.printStackTrace();
 			}
 		}
+	}
 
+	public static Connection getCon() {
+		return con;
 	}
 }
