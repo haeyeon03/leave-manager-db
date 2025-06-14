@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.EmployeeDAO;
@@ -21,11 +22,21 @@ public class EmployeeService {
 		return totalPage;
 	}
 
-	public List<EmployeeVO> getEmployeeList(int currentPage, int pageSize) {
+	public List<EmployeeVO> getEmployeeList(int currentPage, int pageSize, int number) {
 		int totalCount = adminDAO.countAllEmployee();
 		PageVO pageVO = PageUtil.paginate(totalCount, pageSize, currentPage);
-		
-		List<EmployeeVO> employeeList = adminDAO.getEmployeeList(pageVO);
+		List<EmployeeVO> employeeList = new ArrayList<>();
+		switch (number) {
+		case 1:
+			employeeList = adminDAO.getEmployeeList(pageVO,"E.EMP_NO ASC");
+			break;
+		case 3:
+			employeeList = adminDAO.getEmployeeList(pageVO,"E.HIRE_DATE ASC");
+			break;
+		case 4:
+			employeeList = adminDAO.getEmployeeList(pageVO,"E.HIRE_DATE DESC");
+			break;
+		}
 		return employeeList;
 	}
 

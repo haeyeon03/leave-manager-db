@@ -49,12 +49,12 @@ public class EmployeeDAO {
 	 * 
 	 * @return employeeList, 실패 시 null 반환
 	 */
-	public List<EmployeeVO> getEmployeeList(PageVO pageRange) {
+	public List<EmployeeVO> getEmployeeList(PageVO pageRange, String sortType) {
 		Connection con = DBConnector.getCon();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String query = """
+		String query =  String.format("""
 			    SELECT * FROM (
 			        SELECT 
 			            E.EMP_NO,
@@ -66,14 +66,14 @@ public class EmployeeDAO {
 			            E.PHONE_NUMBER,
 			            E.ROLE,
 			            EL.REMAINING_DAYS,
-			            ROW_NUMBER() OVER (ORDER BY E.EMP_NO) AS RN
+			            ROW_NUMBER() OVER (ORDER BY %s) AS RN
 			        FROM EMPLOYEE E
 			        LEFT JOIN EMPLOYEE_LEAVE EL 
 			            ON E.EMP_NO = EL.EMP_NO 
 			            AND EL.YEAR = EXTRACT(YEAR FROM SYSDATE)
 			    )
 			    WHERE RN BETWEEN ? AND ?
-			    """;
+			    """,sortType);
 
 		try {
 			pstmt = con.prepareStatement(query);

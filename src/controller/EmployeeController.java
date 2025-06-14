@@ -19,8 +19,8 @@ public class EmployeeController {
 		return totalPage;
 	}
 
-	public List<EmployeeVO> getEmployeeList(int currentPage, int pageSize) {
-		List<EmployeeVO> employeeList = adminService.getEmployeeList(currentPage, pageSize);
+	public List<EmployeeVO> getEmployeeList(int currentPage, int pageSize, int number) {
+		List<EmployeeVO> employeeList = adminService.getEmployeeList(currentPage, pageSize, number);
 		return employeeList;
 	}
 	

@@ -26,24 +26,17 @@ public class AdminView {
 		while (!stops) {
 			int selectedNumber = displayAdminMenu();
 			switch (selectedNumber) {
+			// 1. 사원조회
 			case 1:
-				// 1. 페이지당 항목 수 입력
-				System.out.printf("페이지당 표시할 항목 수를 입력해 주세요:");
-				int pageSize = InputUtil.getInt();
-
-				// 2. 전체 페이지 조회
-				int totalPage = employeeController.getTotalPage(pageSize);
-				System.out.printf("전체 페이지 수: p.%d\n", totalPage);
-				System.out.println("페이지를 선택해주세요:");
-				int currentPage = InputUtil.getInt();
-				if (1 > currentPage || currentPage > totalPage) {
-					System.out.println("존재 하지 않는 페이지입니다. 다시 입력해주세요.");
-					break;
-				}
-
-				// 3. 사원 조회
-				List<EmployeeVO> employeeList = employeeController.getEmployeeList(currentPage, pageSize);
-				printUserList(employeeList);
+				showEmployeeList(selectedNumber);
+				break;
+			// 3. 사원정보 오름차순(입사순)
+			case 3:
+				showEmployeeList(selectedNumber);
+				break;
+			// 4. 사원정보 내림차순(입사순)
+			case 4:
+				showEmployeeList(selectedNumber);
 				break;
 			case 8:
 				stops = true;
@@ -55,6 +48,26 @@ public class AdminView {
 			}
 		}
 		return false;
+	}
+
+	private void showEmployeeList(int number) {
+		// 1. 페이지당 항목 수 입력
+		System.out.printf("페이지당 표시할 항목 수를 입력해 주세요:");
+		int pageSize = InputUtil.getInt();
+
+		// 2. 전체 페이지 조회
+		int totalPage = employeeController.getTotalPage(pageSize);
+		System.out.printf("전체 페이지 수: p.%d\n", totalPage);
+		System.out.println("페이지를 선택해주세요:");
+		int currentPage = InputUtil.getInt();
+		if (1 > currentPage || currentPage > totalPage) {
+			System.out.println("존재 하지 않는 페이지입니다. 다시 입력해주세요.");
+			return;
+		}
+
+		// 3. 사원 조회
+		List<EmployeeVO> employeeList = employeeController.getEmployeeList(currentPage, pageSize, number);
+		printUserList(employeeList);
 	}
 
 	/**
