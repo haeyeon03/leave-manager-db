@@ -38,11 +38,11 @@ public class LoginDAO {
 				String empName = rs.getString("EMP_NAME");
 				String position = rs.getString("POSITION");
 				LocalDate birthDate = rs.getDate("BIRTH_DATE").toLocalDate();
-				LocalDate hiredDate = rs.getDate("HIRE_DATE").toLocalDate();
+				LocalDate hireDate = rs.getDate("HIRE_DATE").toLocalDate();
 				String phoneNumber = rs.getString("PHONE_NUMBER");
 				int role = rs.getInt("ROLE");
 
-				return new EmployeeVO(empNo, password, empName, position, birthDate, hiredDate, phoneNumber, role);
+				return new EmployeeVO(empNo, password, empName, position, birthDate, hireDate, phoneNumber, role);
 			}
 
 		} catch (SQLException e) {

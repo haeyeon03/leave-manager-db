@@ -18,7 +18,6 @@ public class LoginController {
 	 * @return 로그인 성공 시 사원 정보(EmployeeVO), 실패 시 null 반환
 	 */
 	public EmployeeVO login(EmployeeVO input) {
-		// TODO. 생성자 주입으로 변경
 		EmployeeVO employee = loginService.login(input);
 		return employee;
 	}

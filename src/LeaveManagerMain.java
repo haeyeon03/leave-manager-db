@@ -1,7 +1,10 @@
 import config.DBConnector;
+import controller.EmployeeController;
 import controller.LoginController;
+import dao.EmployeeDAO;
 import dao.LoginDAO;
 import model.EmployeeVO;
+import service.EmployeeService;
 import service.LoginService;
 import view.AdminView;
 import view.GeneralView;
@@ -20,8 +23,11 @@ public class LeaveManagerMain {
 			LoginController loginController = new LoginController(loginService);
 			LoginView loginView = new LoginView(loginController);
 			
-			// 관리자
-			AdminView adminView = new AdminView();
+			// 사원
+			EmployeeDAO employeeDAO = new EmployeeDAO();
+			EmployeeService employeeService = new EmployeeService(employeeDAO);
+			EmployeeController employeeController = new EmployeeController(employeeService);
+			AdminView adminView = new AdminView(employeeController);
 			
 			// 사용자
 			GeneralView generalView = new GeneralView();
