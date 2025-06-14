@@ -12,4 +12,8 @@ public class InputUtil {
     public static String getString() {
         return scan.nextLine();
     }
+    
+    public static char getChar() {
+        return scan.nextLine().charAt(0);
+    }
 }

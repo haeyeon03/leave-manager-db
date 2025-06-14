@@ -1,6 +1,8 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeVO {
 	private int empNo;
@@ -8,9 +10,15 @@ public class EmployeeVO {
 	private String empName;
 	private String position;
 	private LocalDate birthDate;
-	private LocalDate hiredDate;
+	private LocalDate hireDate;
 	private String phoneNumber;
 	private int role;
+	private int remainingDays;
+	private List<LeaveRequestVO> leaveRequests = new ArrayList<>();
+	
+	public void addLeaveReques(LeaveRequestVO leaveRequest) {
+		leaveRequests.add(leaveRequest);
+	}
 
 	public EmployeeVO() {
 		super();
@@ -23,18 +31,30 @@ public class EmployeeVO {
 	}
 
 	public EmployeeVO(int empNo, String password, String empName, String position, LocalDate birthDate,
-			LocalDate hiredDate, String phoneNumber, int role) {
+			LocalDate hireDate, String phoneNumber, int role) {
 		super();
 		this.empNo = empNo;
 		this.password = password;
 		this.empName = empName;
 		this.position = position;
 		this.birthDate = birthDate;
-		this.hiredDate = hiredDate;
+		this.hireDate = hireDate;
 		this.phoneNumber = phoneNumber;
-		this.role = role;
 	}
 
+	public EmployeeVO(int empNo, String password, String empName, String position, LocalDate birthDate,
+			LocalDate hireDate, String phoneNumber, int role, int remainingDays) {
+		super();
+		this.empNo = empNo;
+		this.password = password;
+		this.empName = empName;
+		this.position = position;
+		this.birthDate = birthDate;
+		this.hireDate = hireDate;
+		this.phoneNumber = phoneNumber;
+		this.role = role;
+		this.remainingDays = remainingDays;
+	}
 	public int getEmpNo() {
 		return empNo;
 	}
@@ -75,12 +95,12 @@ public class EmployeeVO {
 		this.birthDate = birthDate;
 	}
 
-	public LocalDate getHiredDate() {
-		return hiredDate;
+	public LocalDate getHireDate() {
+		return hireDate;
 	}
 
-	public void setHiredDate(LocalDate hiredDate) {
-		this.hiredDate = hiredDate;
+	public void setHireDate(LocalDate hireDate) {
+		this.hireDate = hireDate;
 	}
 
 	public String getPhoneNumber() {
@@ -98,12 +118,30 @@ public class EmployeeVO {
 	public void setRole(int role) {
 		this.role = role;
 	}
+	
+	
+	public int getRemainingDays() {
+		return remainingDays;
+	}
+
+	public void setRemainingDays(int remainingDays) {
+		this.remainingDays = remainingDays;
+	}
+
+	public List<LeaveRequestVO> getLeaveRequests() {
+		return leaveRequests;
+	}
+
+	public void setLeaveRequests(List<LeaveRequestVO> leaveRequests) {
+		this.leaveRequests = leaveRequests;
+	}
+
 
 	@Override
 	public String toString() {
-		return "UserVO [empNo=" + empNo + ", password=" + password + ", empName=" + empName + ", position=" + position
-				+ ", birthDate=" + birthDate + ", hiredDate=" + hiredDate + ", phoneNumber=" + phoneNumber + ", role="
-				+ role + "]";
+		return "EmployeeVO [empNo=" + empNo + ", password=" + password + ", empName=" + empName + ", position="
+				+ position + ", birthDate=" + birthDate + ", hireDate=" + hireDate + ", phoneNumber=" + phoneNumber
+				+ ", role=" + role + "]";
 	}
 
 }
