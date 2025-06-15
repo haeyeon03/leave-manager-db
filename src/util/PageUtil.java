@@ -14,7 +14,7 @@ public class PageUtil {
 	 */
 	public static PageVO paginate(int totalSize, int pageSize, int page) {
 		int start = pageSize * (page - 1) + 1;
-		int end = Math.min(start + pageSize, totalSize);
+		int end = Math.min(start + pageSize - 1, totalSize);
 		return new PageVO(start, end);
 	}
 

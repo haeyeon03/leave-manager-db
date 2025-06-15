@@ -11,6 +11,7 @@ import java.util.List;
 import config.DBConnector;
 import model.EmployeeVO;
 import model.PageVO;
+import model.SortVO;
 
 public class EmployeeDAO {
 
@@ -49,31 +50,31 @@ public class EmployeeDAO {
 	 * 
 	 * @return employeeList, 실패 시 null 반환
 	 */
-	public List<EmployeeVO> getEmployeeList(PageVO pageRange, String sortType) {
+	public List<EmployeeVO> selectEmployeeList(PageVO pageRange, SortVO sort) {
 		Connection con = DBConnector.getCon();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
-		String query =  String.format("""
-			    SELECT * FROM (
-			        SELECT 
-			            E.EMP_NO,
-			            E.PASSWORD,
-			            E.EMP_NAME,
-			            E.POSITION,
-			            E.BIRTH_DATE,
-			            E.HIRE_DATE,
-			            E.PHONE_NUMBER,
-			            E.ROLE,
-			            EL.REMAINING_DAYS,
-			            ROW_NUMBER() OVER (ORDER BY %s) AS RN
-			        FROM EMPLOYEE E
-			        LEFT JOIN EMPLOYEE_LEAVE EL 
-			            ON E.EMP_NO = EL.EMP_NO 
-			            AND EL.YEAR = EXTRACT(YEAR FROM SYSDATE)
-			    )
-			    WHERE RN BETWEEN ? AND ?
-			    """,sortType);
+
+		String query = String.format("""
+				SELECT * FROM (
+				    SELECT
+				        E.EMP_NO,
+				        E.PASSWORD,
+				        E.EMP_NAME,
+				        E.POSITION,
+				        E.BIRTH_DATE,
+				        E.HIRE_DATE,
+				        E.PHONE_NUMBER,
+				        E.ROLE,
+				        EL.REMAINING_DAYS,
+				        ROW_NUMBER() OVER (ORDER BY %s %s) AS RN
+				    FROM EMPLOYEE E
+				    LEFT JOIN EMPLOYEE_LEAVE EL
+				        ON E.EMP_NO = EL.EMP_NO
+				        AND EL.YEAR = EXTRACT(YEAR FROM SYSDATE)
+				)
+				WHERE RN BETWEEN ? AND ?
+				""", "E." + sort.getField(), sort.getOrderBy());
 
 		try {
 			pstmt = con.prepareStatement(query);
@@ -108,4 +109,53 @@ public class EmployeeDAO {
 		return null;
 	}
 
+	/**
+	 * 사원삭제
+	 * 
+	 * @return 성공 시 1, 실패 시 0 반환
+	 */
+	public int deleteEmployee(int employeeId) {
+		Connection con = DBConnector.getCon();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		String query = "DELETE FROM EMPLOYEE WHERE EMP_NO =?";
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, employeeId);
+			count = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println(e.getLocalizedMessage());
+		} finally {
+			DBConnector.closeResources(pstmt, rs);
+		}
+		return count;
+	}
+
+	/**
+	 * 사원 연차 내역 삭제
+	 * 
+	 * @return 성공 시 1, 실패 시 0 반환
+	 */
+	public int deleteLeave(int employeeId) {
+		Connection con = DBConnector.getCon();	
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		String query = "DELETE FROM EMPLOYEE_LEAVE WHERE EMP_NO =?";
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, employeeId);
+			count = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println(e.getLocalizedMessage());
+		} finally {
+			DBConnector.closeResources(pstmt, rs);
+		}
+		return count;
+	}
 }
