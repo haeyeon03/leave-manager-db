@@ -11,6 +11,7 @@ import java.util.List;
 import config.DBConnector;
 import model.EmployeeVO;
 import model.PageVO;
+import model.Role;
 import model.SortVO;
 
 public class EmployeeDAO {
@@ -35,6 +36,35 @@ public class EmployeeDAO {
 			if (rs.next()) {
 				int totalPage = rs.getInt("TOTALPAGE");
 				return totalPage;
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getLocalizedMessage());
+		} finally {
+			DBConnector.closeResources(pstmt, rs);
+		}
+		return 0;
+	}
+
+	/**
+	 * 사원 정보 조회
+	 * 
+	 * @param empNo 사원번호
+	 * @return 성공 시 1, 실패 시 0 반환
+	 */
+	public int checkEmployee(int empNo) {
+		Connection con = DBConnector.getCon();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String query = "SELECT COUNT(*) COUNT FROM EMPLOYEE WHERE EMP_NO = ?";
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, empNo);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				int count = rs.getInt("COUNT");
+				return count;
 			}
 
 		} catch (SQLException e) {
@@ -122,14 +152,6 @@ public class EmployeeDAO {
 		String query = String.format("INSERT INTO EMPLOYEE VALUES (%s, ?, ?, ?, ?, ?, ?, ?)", empNo);
 
 		try {
-			System.out.println(empNo);
-			System.out.println(employeeVO.getPassword());
-			System.out.println(employeeVO.getEmpName());
-			System.out.println(employeeVO.getPosition());
-			System.out.println(java.sql.Date.valueOf(employeeVO.getBirthDate()));
-			System.out.println(java.sql.Date.valueOf(employeeVO.getHireDate()));
-			System.out.println(employeeVO.getPhoneNumber());
-			System.out.println(employeeVO.getRole());
 			pstmt = con.prepareStatement(query);
 
 			pstmt.setString(1, employeeVO.getPassword());
@@ -150,11 +172,63 @@ public class EmployeeDAO {
 	}
 
 	/**
+	 * 사원수정
+	 * 
+	 * @return 성공 시 1, 실패 시 0 반환
+	 */
+	public int updateEmployee(String column, Object updateInput, int updateEmpNo) {
+		Connection con = DBConnector.getCon();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		String query = String.format("UPDATE EMPLOYEE SET %s = ? WHERE EMP_NO = ?", column);
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setObject(1, updateInput);
+			pstmt.setInt(2, updateEmpNo);
+			count = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println(e.getLocalizedMessage());
+		} finally {
+			DBConnector.closeResources(pstmt, rs);
+		}
+		return count;
+	}
+
+	/**
+	 * 연차 갯수 수정
+	 * 
+	 * @return 성공 시 1, 실패 시 0 반환
+	 */
+	public int updateLeaveDays(Object updateInput, int updateEmpNo) {
+		Connection con = DBConnector.getCon();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		String query = "UPDATE EMPLOYEE_LEAVE SET REMAINING_DAYS = ? WHERE EMP_NO = ? AND YEAR = EXTRACT(YEAR FROM SYSDATE)";
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setObject(1, updateInput);
+			pstmt.setInt(2, updateEmpNo);
+			count = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println(e.getLocalizedMessage());
+		} finally {
+			DBConnector.closeResources(pstmt, rs);
+		}
+		return count;
+	}
+
+	/**
 	 * 사원삭제
 	 * 
 	 * @return 성공 시 1, 실패 시 0 반환
 	 */
-	public int deleteEmployee(int employeeId) {
+	public int deleteEmployee(int deleteEmpNo) {
 		Connection con = DBConnector.getCon();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -163,7 +237,7 @@ public class EmployeeDAO {
 
 		try {
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, employeeId);
+			pstmt.setInt(1, deleteEmpNo);
 			count = pstmt.executeUpdate();
 
 		} catch (SQLException e) {

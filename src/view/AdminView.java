@@ -5,7 +5,7 @@ import java.util.List;
 
 import controller.EmployeeController;
 import model.EmployeeVO;
-import model.ModeChoice;
+import model.Role;
 import model.SortVO;
 import util.InputUtil;
 import validation.InputHelper;
@@ -53,7 +53,7 @@ public class AdminView {
 			case 2:
 				System.out.println("+---------- 등록할 사원의 정보를 입력 ----------+");
 				// 원하는 역할 선택 하여 등록
-				ModeChoice[] modes = ModeChoice.values();
+				Role[] modes = Role.values();
 				System.out.println("등록할 역할을 선택하세요:");
 				for (int i = 0; i < modes.length; i++) {
 					System.out.println((i + 1) + ". " + modes[i].getDisplayName());
@@ -62,7 +62,7 @@ public class AdminView {
 				int choice = InputUtil.getInt();
 
 				// 기본 정보 유효성 검사를 통하여 입력
-				ModeChoice selectedMode = ModeChoice.fromChoice(choice);
+				Role selectedMode = Role.fromChoice(choice);
 				String password = InputHelper.inputPassword();
 				String empName = InputHelper.inputEmpName();
 				String position = InputHelper.inputPosition();
@@ -75,11 +75,25 @@ public class AdminView {
 				employeeController.insertEmployee(employeeVO);
 				System.out.println("+---------------------------------------+");
 				break;
+			// 3. 사원정보 수정
+			case 3:
+				System.out.printf("수정할 사원의 사번을 입력해주세요:");
+				int updateEmpNo = InputUtil.getInt();
+				int count = employeeController.checkEmployee(updateEmpNo);
+				if (count == 0) {
+					System.out.println("[API ERROR] 존재 하지 않는 사원번호 입니다.");
+				} else {
+					displayEditMenu(updateEmpNo);
+				}
+				break;
 			// 4. 사원정보 삭제
 			case 4:
 				System.out.printf("삭제할 사원의 사번을 입력해주세요:");
-				int employeeId = InputUtil.getInt();
-				employeeController.deleteEmployee(employeeId);
+				int deleteEmpNo = InputUtil.getInt();
+				employeeController.deleteEmployee(deleteEmpNo);
+				break;
+			// 5. 휴가 신청 리스트 확인
+			case 5:
 				break;
 			// 6. 로그아웃
 			case 6:
@@ -89,7 +103,7 @@ public class AdminView {
 			case 7:
 				return true;
 			default:
-				System.out.println("존재 하지 않는번호입니다. 다시 선택해주세요.");
+				System.out.println("[API ERROR] 존재 하지 않는번호입니다. 다시 선택해주세요.");
 			}
 		}
 		return false;
@@ -112,7 +126,7 @@ public class AdminView {
 		int currentPage = InputUtil.getInt();
 		System.out.println("+---------------------------------------+");
 		if (1 > currentPage || currentPage > totalPage) {
-			System.out.println("존재 하지 않는 페이지입니다. 다시 입력해주세요.");
+			System.out.println("[API ERROR] 존재 하지 않는 페이지입니다. 다시 입력해주세요.");
 			return;
 		}
 
@@ -169,5 +183,45 @@ public class AdminView {
 		int selectNumber = InputUtil.getInt();
 		System.out.println("+---------------------------------------+");
 		return selectNumber;
+	}
+
+	/**
+	 * 콘솔에 관리자 수정 메뉴 표시
+	 * 
+	 * @return selectNumber
+	 */
+	private void displayEditMenu(int updateEmpNo) {
+		System.out.println("+=======================================+");
+		System.out.println("             수정목록      	       	");
+		System.out.println("+=======================================+");
+		System.out.println(" 1. 이름                          		");
+		System.out.println(" 2. 직급                         			");
+		System.out.println(" 3. 전화번호                 				");
+		System.out.println(" 4. 연차갯수                 				");
+		System.out.println("+=======================================+");
+		System.out.println("번호를 입력해주세요:");
+		int selectNumber = InputUtil.getInt();
+		switch (selectNumber) {
+		case 1:
+			System.out.println("새 이름을 입력해주세요.");
+			employeeController.updateEmployee(selectNumber, updateEmpNo, InputUtil.getString());
+			break;
+		case 2:
+			System.out.println("새 직급을 입력해주세요.");
+			employeeController.updateEmployee(selectNumber, updateEmpNo, InputUtil.getString());
+			InputUtil.getString();
+			break;
+		case 3:
+			System.out.println("새 전화번호를 입력해주세요.");
+			employeeController.updateEmployee(selectNumber, updateEmpNo, InputUtil.getString());
+			break;
+		case 4:
+			System.out.println("새 연차 갯수를 입력해주세요.");
+			employeeController.updateEmployee(selectNumber, updateEmpNo, InputUtil.getInt());
+			break;
+		default:
+			System.out.println("올바른 숫자를 입력해주세요.(1~4)");
+		}
+		System.out.println("+---------------------------------------+");
 	}
 }

@@ -20,6 +20,12 @@ public class EmployeeController {
 		return totalPage;
 	}
 
+	// 사원 번호 체크
+	public int checkEmployee(int empNo) {
+		int count = adminService.checkEmployee(empNo);
+		return count;
+	}
+
 	// 사원조회
 	public List<EmployeeVO> getEmployeeList(int currentPage, int pageSize, SortVO sort) {
 		List<EmployeeVO> employeeList = adminService.getEmployeeList(currentPage, pageSize, sort);
@@ -31,9 +37,14 @@ public class EmployeeController {
 		adminService.insertEmployee(employeeVO);
 	}
 
+	// 사원수정
+	public void updateEmployee(int editNumber,int updateEmpNo, Object updateInput) {
+		adminService.updateEmployee(editNumber, updateEmpNo, updateInput);
+	}
+
 	// 사원삭제
-	public void deleteEmployee(int employeeId) {
-		adminService.deleteEmployee(employeeId);
+	public void deleteEmployee(int deleteEmpNo) {
+		adminService.deleteEmployee(deleteEmpNo);
 	}
 
 }

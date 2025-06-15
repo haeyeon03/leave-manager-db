@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeVO {
-	private ModeChoice mode;
+	private Role mode;
 	private int empNo;
 	private String password;
 	private String empName;
@@ -57,7 +57,7 @@ public class EmployeeVO {
 		this.remainingDays = remainingDays;
 	}
 
-	public EmployeeVO(ModeChoice mode, String password, String empName, String position, LocalDate birthDate,
+	public EmployeeVO(Role mode, String password, String empName, String position, LocalDate birthDate,
 			LocalDate hireDate, String phoneNumber) {
 		super();
 		this.mode = mode;
@@ -69,11 +69,11 @@ public class EmployeeVO {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public ModeChoice getMode() {
+	public Role getMode() {
 		return mode;
 	}
 
-	public void setMode(ModeChoice mode) {
+	public void setMode(Role mode) {
 		this.mode = mode;
 	}
 
