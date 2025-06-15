@@ -3,7 +3,6 @@ package controller;
 import java.util.List;
 
 import model.EmployeeVO;
-import model.PageVO;
 import model.SortVO;
 import service.EmployeeService;
 
@@ -25,6 +24,11 @@ public class EmployeeController {
 	public List<EmployeeVO> getEmployeeList(int currentPage, int pageSize, SortVO sort) {
 		List<EmployeeVO> employeeList = adminService.getEmployeeList(currentPage, pageSize, sort);
 		return employeeList;
+	}
+
+	// 사원등록
+	public void insertEmployee(EmployeeVO employeeVO) {
+		adminService.insertEmployee(employeeVO);
 	}
 
 	// 사원삭제

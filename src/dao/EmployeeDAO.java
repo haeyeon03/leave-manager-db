@@ -110,6 +110,46 @@ public class EmployeeDAO {
 	}
 
 	/**
+	 * 사원등록
+	 * 
+	 * @return 성공 시 1, 실패 시 0 반환
+	 */
+	public int insertEmployee(String empNo, EmployeeVO employeeVO) {
+		Connection con = DBConnector.getCon();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		String query = String.format("INSERT INTO EMPLOYEE VALUES (%s, ?, ?, ?, ?, ?, ?, ?)", empNo);
+
+		try {
+			System.out.println(empNo);
+			System.out.println(employeeVO.getPassword());
+			System.out.println(employeeVO.getEmpName());
+			System.out.println(employeeVO.getPosition());
+			System.out.println(java.sql.Date.valueOf(employeeVO.getBirthDate()));
+			System.out.println(java.sql.Date.valueOf(employeeVO.getHireDate()));
+			System.out.println(employeeVO.getPhoneNumber());
+			System.out.println(employeeVO.getRole());
+			pstmt = con.prepareStatement(query);
+
+			pstmt.setString(1, employeeVO.getPassword());
+			pstmt.setString(2, employeeVO.getEmpName());
+			pstmt.setString(3, employeeVO.getPosition());
+			pstmt.setDate(4, java.sql.Date.valueOf(employeeVO.getBirthDate()));
+			pstmt.setDate(5, java.sql.Date.valueOf(employeeVO.getHireDate()));
+			pstmt.setString(6, employeeVO.getPhoneNumber());
+			pstmt.setInt(7, employeeVO.getRole());
+			count = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println(e.getLocalizedMessage());
+		} finally {
+			DBConnector.closeResources(pstmt, rs);
+		}
+		return count;
+	}
+
+	/**
 	 * 사원삭제
 	 * 
 	 * @return 성공 시 1, 실패 시 0 반환
@@ -140,7 +180,7 @@ public class EmployeeDAO {
 	 * @return 성공 시 1, 실패 시 0 반환
 	 */
 	public int deleteLeave(int employeeId) {
-		Connection con = DBConnector.getCon();	
+		Connection con = DBConnector.getCon();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int count = 0;

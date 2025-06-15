@@ -1,13 +1,14 @@
 package view;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import controller.EmployeeController;
 import model.EmployeeVO;
-import model.PageVO;
+import model.ModeChoice;
 import model.SortVO;
 import util.InputUtil;
-import util.PageUtil;
+import validation.InputHelper;
 
 public class AdminView {
 
@@ -48,6 +49,32 @@ public class AdminView {
 					break;
 				}
 				break;
+			// 2. 사원 등록
+			case 2:
+				System.out.println("+---------- 등록할 사원의 정보를 입력 ----------+");
+				// 원하는 역할 선택 하여 등록
+				ModeChoice[] modes = ModeChoice.values();
+				System.out.println("등록할 역할을 선택하세요:");
+				for (int i = 0; i < modes.length; i++) {
+					System.out.println((i + 1) + ". " + modes[i].getDisplayName());
+				}
+				System.out.print("선택: ");
+				int choice = InputUtil.getInt();
+
+				// 기본 정보 유효성 검사를 통하여 입력
+				ModeChoice selectedMode = ModeChoice.fromChoice(choice);
+				String password = InputHelper.inputPassword();
+				String empName = InputHelper.inputEmpName();
+				String position = InputHelper.inputPosition();
+				LocalDate birthDate = InputHelper.inputBirthDate();
+				LocalDate hireDate = InputHelper.inputJoinDate();
+				String phoneNumber = InputHelper.inputPhoneNumber();
+
+				EmployeeVO employeeVO = new EmployeeVO(selectedMode, password, empName, position, birthDate, hireDate,
+						phoneNumber);
+				employeeController.insertEmployee(employeeVO);
+				System.out.println("+---------------------------------------+");
+				break;
 			// 4. 사원정보 삭제
 			case 4:
 				System.out.printf("삭제할 사원의 사번을 입력해주세요:");
@@ -77,7 +104,7 @@ public class AdminView {
 		System.out.printf("페이지당 표시할 항목 수를 입력해 주세요:");
 		int pageSize = InputUtil.getInt();
 		System.out.println("+---------------------------------------+");
-		
+
 		// 2. 전체 페이지 조회
 		int totalPage = employeeController.getTotalPage(pageSize);
 		System.out.printf("전체 페이지 수: p.%d\n", totalPage);

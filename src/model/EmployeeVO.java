@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeVO {
+	private ModeChoice mode;
 	private int empNo;
 	private String password;
 	private String empName;
@@ -15,7 +16,7 @@ public class EmployeeVO {
 	private int role;
 	private int remainingDays;
 	private List<LeaveRequestVO> leaveRequests = new ArrayList<>();
-	
+
 	public void addLeaveReques(LeaveRequestVO leaveRequest) {
 		leaveRequests.add(leaveRequest);
 	}
@@ -55,6 +56,27 @@ public class EmployeeVO {
 		this.role = role;
 		this.remainingDays = remainingDays;
 	}
+
+	public EmployeeVO(ModeChoice mode, String password, String empName, String position, LocalDate birthDate,
+			LocalDate hireDate, String phoneNumber) {
+		super();
+		this.mode = mode;
+		this.password = password;
+		this.empName = empName;
+		this.position = position;
+		this.birthDate = birthDate;
+		this.hireDate = hireDate;
+		this.phoneNumber = phoneNumber;
+	}
+
+	public ModeChoice getMode() {
+		return mode;
+	}
+
+	public void setMode(ModeChoice mode) {
+		this.mode = mode;
+	}
+
 	public int getEmpNo() {
 		return empNo;
 	}
@@ -118,8 +140,11 @@ public class EmployeeVO {
 	public void setRole(int role) {
 		this.role = role;
 	}
-	
-	
+
+	public int getRole() {
+		return role;
+	}
+
 	public int getRemainingDays() {
 		return remainingDays;
 	}
@@ -135,7 +160,6 @@ public class EmployeeVO {
 	public void setLeaveRequests(List<LeaveRequestVO> leaveRequests) {
 		this.leaveRequests = leaveRequests;
 	}
-
 
 	@Override
 	public String toString() {
