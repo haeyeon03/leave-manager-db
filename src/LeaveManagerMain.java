@@ -1,10 +1,13 @@
 import config.DBConnector;
 import controller.EmployeeController;
+import controller.LeaveController;
 import controller.LoginController;
 import dao.EmployeeDAO;
+import dao.LeaveDAO;
 import dao.LoginDAO;
 import model.EmployeeVO;
 import service.EmployeeService;
+import service.LeaveService;
 import service.LoginService;
 import view.AdminView;
 import view.GeneralView;
@@ -14,42 +17,47 @@ public class LeaveManagerMain {
 
 	public static void main(String[] args) {
 		try {
+			// Backend
 			// DB 연결
 			DBConnector.openConnection();
 
-			// 로그인
+			// 로그인 API
 			LoginDAO loginDAO = new LoginDAO();
 			LoginService loginService = new LoginService(loginDAO);
 			LoginController loginController = new LoginController(loginService);
-			LoginView loginView = new LoginView(loginController);
-			
-			// 사원
+
+			// 사원 API
 			EmployeeDAO employeeDAO = new EmployeeDAO();
 			EmployeeService employeeService = new EmployeeService(employeeDAO);
 			EmployeeController employeeController = new EmployeeController(employeeService);
+
+			// 휴가 신청 API
+			LeaveDAO leaveRequestDAO = new LeaveDAO();
+			LeaveService leaveRequestService = new LeaveService(leaveRequestDAO);
+			LeaveController leaveRequestController = new LeaveController(leaveRequestService);
+
+			// View
+			LoginView loginView = new LoginView(loginController);
 			AdminView adminView = new AdminView(employeeController);
-			
-			// 사용자
-			GeneralView generalView = new GeneralView();
-			
+			GeneralView generalView = new GeneralView(leaveRequestController);
+
 			boolean stops = false;
-			
-			while(!stops) {
+
+			while (!stops) {
 				// 로그인
 				EmployeeVO employee = loginView.login();
-				
+
 				if (employee == null) {
 					continue;
 				}
-				
 				// 로그인한 사원의 role 에 따라 분기처리
-				switch(employee.isRole()) {
-					case 0:
-						stops = adminView.run();
-						break;
-					case 1:
-						stops = generalView.run();
-						break;
+				switch (employee.getRole()) {
+				case 0:
+					stops = adminView.run();
+					break;
+				case 1:
+					stops = generalView.run(employee);
+					break;
 				}
 			}
 		} catch (Exception e) {

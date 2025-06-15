@@ -1,8 +1,8 @@
 package view;
 
 import controller.LoginController;
+import helper.InputHelper;
 import model.EmployeeVO;
-import util.InputUtil;
 
 public class LoginView {
 	private final LoginController loginController;
@@ -32,9 +32,9 @@ public class LoginView {
 		System.out.println("           	  로그인      	      		");
 		System.out.println("+---------------------------------------+");
 		System.out.println("사번을 입력해주세요:");
-		int empNo = InputUtil.getInt();
+		int empNo = InputHelper.getInt();
 		System.out.println("비밀번호를 입력해주세요:");
-		String password = InputUtil.getString();
+		String password = InputHelper.getString();
 		System.out.println("+---------------------------------------+");
 		return new EmployeeVO(empNo, password);
 	}

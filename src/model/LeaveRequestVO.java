@@ -22,6 +22,27 @@ public class LeaveRequestVO {
 		this.status = status;
 		this.empNo = empNo;
 	}
+	
+	public LeaveRequestVO(String leaveType, LocalDate startDate, LocalDate endDate, String reason,
+			String status, int empNo) {
+		super();
+		this.leaveType = leaveType;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.reason = reason;
+		this.status = status;
+		this.empNo = empNo;
+	}
+	
+	public LeaveRequestVO(String leaveType, LocalDate startDate, LocalDate endDate, String reason,
+			String status) {
+		super();
+		this.leaveType = leaveType;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.reason = reason;
+		this.status = status;
+	}
 
 	public int getReqNo() {
 		return reqNo;

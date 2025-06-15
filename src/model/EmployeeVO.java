@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeVO {
-	private Role mode;
+
 	private int empNo;
 	private String password;
 	private String empName;
@@ -41,6 +41,18 @@ public class EmployeeVO {
 		this.birthDate = birthDate;
 		this.hireDate = hireDate;
 		this.phoneNumber = phoneNumber;
+		this.role = role;
+	}
+
+	public EmployeeVO(String password, String empName, String position, LocalDate birthDate, LocalDate hireDate,
+			String phoneNumber, int role) {
+		super();
+		this.password = password;
+		this.empName = empName;
+		this.position = position;
+		this.birthDate = birthDate;
+		this.hireDate = hireDate;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public EmployeeVO(int empNo, String password, String empName, String position, LocalDate birthDate,
@@ -55,26 +67,6 @@ public class EmployeeVO {
 		this.phoneNumber = phoneNumber;
 		this.role = role;
 		this.remainingDays = remainingDays;
-	}
-
-	public EmployeeVO(Role mode, String password, String empName, String position, LocalDate birthDate,
-			LocalDate hireDate, String phoneNumber) {
-		super();
-		this.mode = mode;
-		this.password = password;
-		this.empName = empName;
-		this.position = position;
-		this.birthDate = birthDate;
-		this.hireDate = hireDate;
-		this.phoneNumber = phoneNumber;
-	}
-
-	public Role getMode() {
-		return mode;
-	}
-
-	public void setMode(Role mode) {
-		this.mode = mode;
 	}
 
 	public int getEmpNo() {
@@ -133,16 +125,12 @@ public class EmployeeVO {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public int isRole() {
+	public int getRole() {
 		return role;
 	}
 
 	public void setRole(int role) {
 		this.role = role;
-	}
-
-	public int getRole() {
-		return role;
 	}
 
 	public int getRemainingDays() {

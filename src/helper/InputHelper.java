@@ -1,4 +1,4 @@
-package validation;
+package helper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -7,16 +7,28 @@ import java.util.List;
 import java.util.Scanner;
 
 import model.EmployeeVO;
-
+import model.PositionVO;
+import model.RoleVO;
 
 public class InputHelper {
-
 	private static final Scanner scan = new Scanner(System.in);
+
+	public static int getInt() {
+		return Integer.parseInt(scan.nextLine());
+	}
+
+	public static String getString() {
+		return scan.nextLine();
+	}
+
+	public static char getChar() {
+		return scan.nextLine().charAt(0);
+	}
 
 	public static int inputEmpNo(List<EmployeeVO> employeeList) {
 		while (true) {
 			System.out.println("사번을 입력해주세요. (4자리, 1XXX: 사용자 / 9XXX: 관리자)");
-			String input = scan.nextLine();
+			String input = getString();
 
 			// 정규식으로 입력값이 유효한지 확인
 			if (input.matches("^[1|9]\\d{3}$")) {
@@ -45,7 +57,7 @@ public class InputHelper {
 	public static String inputPassword() {
 		while (true) {
 			System.out.println("비밀번호를 입력해주세요. (영어 + 특수문자 !@# 만 사용 가능)");
-			String input = scan.nextLine();
+			String input = getString();
 			if (input.matches("^[a-zA-Z!@#]+$")) {
 				return input;
 			} else {
@@ -57,7 +69,7 @@ public class InputHelper {
 	public static String inputEmpName() {
 		while (true) {
 			System.out.println("이름을 입력해주세요. (한글 5글자 이내)");
-			String input = scan.nextLine();
+			String input = getString();
 			if (input.matches("^[가-힣]{1,5}$")) {
 				return input;
 			} else {
@@ -66,14 +78,17 @@ public class InputHelper {
 		}
 	}
 
-	public static String inputPosition() {
+	public static String inputPosition(List<PositionVO> positionList) {
 		while (true) {
-			System.out.println("직급을 입력해주세요. (한글 3글자 이내)");
-			String input = scan.nextLine();
-			if (input.matches("^[가-힣]{1,3}$")) {
-				return input;
+			System.out.println("직급을 선택해주세요.");
+			for (int i = 0; i < positionList.size(); i++) {
+				System.out.println((i + 1) + ". " + positionList.get(i).getDisplayName());
+			}
+			int input = getInt();
+			if (input > 0 && positionList.size() + 1 >= input) {
+				return positionList.get(input - 1).getDisplayName();
 			} else {
-				System.out.println("잘못된 직급입니다.");
+				System.out.println("유효하지 않는 번호입니다.");
 			}
 		}
 	}
@@ -89,7 +104,7 @@ public class InputHelper {
 	private static LocalDate inputDate(String message) {
 		while (true) {
 			System.out.println(message);
-			String input = scan.nextLine();
+			String input = getString();
 			try {
 				return LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE);
 			} catch (DateTimeParseException e) {
@@ -101,7 +116,7 @@ public class InputHelper {
 	public static String inputPhoneNumber() {
 		while (true) {
 			System.out.println("전화번호를 입력해주세요. (예: 010-1234-5678 또는 010-123-4567)");
-			String input = scan.nextLine();
+			String input = getString();
 			if (input.matches("^(\\d{3}-\\d{3,4}-\\d{4})$") && input.length() <= 13) {
 				return input;
 			} else {
@@ -135,7 +150,7 @@ public class InputHelper {
 	public static String inputLeaveType() {
 		while (true) {
 			System.out.print("휴가 유형을 선택하세요. (1: 병가, 2: 휴가): ");
-			String leaveType = scan.nextLine();
+			String leaveType = getString();
 
 			if ("1".equals(leaveType)) {
 				return "병가";
@@ -149,12 +164,45 @@ public class InputHelper {
 
 	public static String inputLeaveReason() {
 		System.out.print("사유를 입력해주세요 (한글 20자 내외): ");
-		String input = scan.nextLine();
+		String input = getString();
 		while (true) {
 			if (input.matches("^[가-힣]{1,20}$")) {
 				return input;
 			} else {
 				System.out.print("잘못된 입력입니다. (한글만 입력 가능)");
+			}
+		}
+	}
+
+//	public static String inputPosition(List<PositionVO> positionList) {
+//		while (true) {
+//			System.out.println("직급을 선택해주세요.");
+//			for (int i = 0; i < positionList.size(); i++) {
+//				System.out.println((i + 1) + ". " + positionList.get(i).getDisplayName());
+//			}
+//			int input = getInt();
+//			if (input > 0 && positionList.size() + 1 >= input) {
+//				return positionList.get(input - 1).getDisplayName();
+//			} else {
+//				System.out.println("유효하지 않는 번호입니다.");
+//			}
+//		}
+//	}
+
+	public static int inputRole(List<RoleVO> roleList) {
+		while (true) {
+			System.out.println("역할을 선택해주세요: ");
+			for (int i = 0; i < roleList.size(); i++) {
+				System.out.println((i + 1) + ". " + roleList.get(i).getDisplayName());
+			}
+			int roleType = getInt();
+			int role = (roleType - 1);
+			if (role == 0) {
+				return 0;
+			} else if (role == 1) {
+				return 1;
+			} else {
+				System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
 			}
 		}
 	}
@@ -167,7 +215,7 @@ public class InputHelper {
 	public static boolean shouldContinue() {
 		while (true) {
 			System.out.println("계속 하시겠습니까?(Y/N)");
-			char continues = scan.nextLine().charAt(0);
+			char continues = getChar();
 			if (continues == 'Y' || continues == 'y') {
 				return true;
 			} else if (continues == 'N' || continues == 'n') {
