@@ -18,7 +18,7 @@
 
 ## 🎥 시연 영상
 
-_시연 영상 링크 또는 삽입 예정_
+👉 [쉬자GO 실행 영상 바로가기]([https://youtu.be/MHxiy9FYOhU?si=SSgrDHKeMyqu-30M](https://youtu.be/Q5kP2mbSx4o?si=BPNPAh-v4GURHr5r)
 
 ---
 
