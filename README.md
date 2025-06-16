@@ -28,7 +28,7 @@
 |--------------|---------------------------------|
 | 운영체제     | Windows 10 Home                  |
 | 개발 언어     | Java                            |
-| JDK 버전     | JDK 21                         |
+| JDK 버전     | JDK 17                         |
 | 데이터베이스 | Oracle DB                      |
 | 개발 툴      | Eclipse                        |
 | 문서화 도구   | Google Docs                   |
