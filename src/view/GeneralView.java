@@ -40,7 +40,7 @@ public class GeneralView {
 				break;
 			// 2. 신청내역 확인
 			case 2:
-				List<LeaveRequestVO> leaveRequesList = leaveController.getLeaveRequest(employee);
+				List<LeaveRequestVO> leaveRequesList = leaveController.getLeaveRequestByEmpNo(employee);
 				printLeaveRequestList(leaveRequesList);
 				break;
 			// 3. 로그아웃

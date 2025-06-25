@@ -38,8 +38,27 @@ public class LeaveController {
 	 * @param employee 로그인 한 사원
 	 * @return 성공시 휴가 신청 목록 , 실패시 null 반환
 	 */
-	public List<LeaveRequestVO> getLeaveRequest(EmployeeVO employee) {
-		List<LeaveRequestVO> leaveRequesList = leaveService.getLeaveRequest(employee);
+	public List<LeaveRequestVO> getLeaveRequestByEmpNo(EmployeeVO employee) {
+		List<LeaveRequestVO> leaveRequesList = leaveService.getLeaveRequestByEmpNo(employee);
 		return leaveRequesList;
+	}
+
+	/**
+	 * 전체 연차 신청 목록 API
+	 * 
+	 * @return 연차 신청 리스트
+	 */
+	public List<LeaveRequestVO> getLeaveRequestList() {
+		List<LeaveRequestVO> leaveRequesList = leaveService.getLeaveRequestList();
+		return leaveRequesList;
+	}
+
+	/**
+	 * 연차 신청 처리 API (예: 승인 또는 반려)
+	 * 
+	 * @param leaveRequestVO 처리할 연차 신청 객체
+	 */
+	public void processLeaveRequest(LeaveRequestVO leaveRequestVO) {
+		leaveService.processLeaveRequest(leaveRequestVO);
 	}
 }

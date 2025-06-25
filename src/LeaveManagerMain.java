@@ -32,14 +32,14 @@ public class LeaveManagerMain {
 			EmployeeController employeeController = new EmployeeController(employeeService);
 
 			// 휴가 신청 API
-			LeaveDAO leaveRequestDAO = new LeaveDAO();
-			LeaveService leaveRequestService = new LeaveService(leaveRequestDAO);
-			LeaveController leaveRequestController = new LeaveController(leaveRequestService);
+			LeaveDAO leaveveDAO = new LeaveDAO();
+			LeaveService leaveService = new LeaveService(leaveveDAO);
+			LeaveController leaveController = new LeaveController(leaveService);
 
 			// View
 			LoginView loginView = new LoginView(loginController);
-			AdminView adminView = new AdminView(employeeController);
-			GeneralView generalView = new GeneralView(leaveRequestController);
+			AdminView adminView = new AdminView(employeeController,leaveController);
+			GeneralView generalView = new GeneralView(leaveController);
 
 			boolean stops = false;
 

@@ -107,16 +107,11 @@ public class EmployeeService {
 			System.out.println("[API ERROR] 휴가 내역 삭제 실패하였습니다.");
 			return;
 		} else {
-			int deleteRequest = employeeDAO.deleteRequest(employeeVO);
-			if (deleteRequest == 0) {
-				System.out.println("[API ERROR] 휴가 신청 내역 삭제 실패하였습니다.");
+			employeeDAO.deleteRequest(employeeVO);
+			int deleteEmployee = employeeDAO.deleteEmployee(employeeVO);
+			if (deleteEmployee == 0) {
+				System.out.println("[API ERROR] 사원 삭제 실패하였습니다.");
 				return;
-			} else {
-				int deleteEmployee = employeeDAO.deleteEmployee(employeeVO);
-				if (deleteEmployee == 0) {
-					System.out.println("[API ERROR] 사원 삭제 실패하였습니다.");
-					return;
-				}
 			}
 			System.out.println("[API INFO] 삭제 성공하였습니다.");
 		}

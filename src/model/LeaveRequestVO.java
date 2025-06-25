@@ -11,6 +11,10 @@ public class LeaveRequestVO {
 	private String status;
 	private int empNo;
 
+	public LeaveRequestVO() {
+		super();
+	}
+
 	public LeaveRequestVO(int reqNo, String leaveType, LocalDate startDate, LocalDate endDate, String reason,
 			String status, int empNo) {
 		super();
@@ -22,9 +26,9 @@ public class LeaveRequestVO {
 		this.status = status;
 		this.empNo = empNo;
 	}
-	
-	public LeaveRequestVO(String leaveType, LocalDate startDate, LocalDate endDate, String reason,
-			String status, int empNo) {
+
+	public LeaveRequestVO(String leaveType, LocalDate startDate, LocalDate endDate, String reason, String status,
+			int empNo) {
 		super();
 		this.leaveType = leaveType;
 		this.startDate = startDate;
@@ -33,9 +37,8 @@ public class LeaveRequestVO {
 		this.status = status;
 		this.empNo = empNo;
 	}
-	
-	public LeaveRequestVO(String leaveType, LocalDate startDate, LocalDate endDate, String reason,
-			String status) {
+
+	public LeaveRequestVO(String leaveType, LocalDate startDate, LocalDate endDate, String reason, String status) {
 		super();
 		this.leaveType = leaveType;
 		this.startDate = startDate;

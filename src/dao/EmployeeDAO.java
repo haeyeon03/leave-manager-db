@@ -301,7 +301,7 @@ public class EmployeeDAO {
 		ResultSet rs = null;
 		int count = 0;
 		String query = "DELETE FROM EMPLOYEE_LEAVE WHERE EMP_NO =?";
-
+		System.out.println(employeeVO.getEmpNo());
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, employeeVO.getEmpNo());
@@ -340,7 +340,7 @@ public class EmployeeDAO {
 		}
 		return count;
 	}
-	
+
 	/**
 	 * 휴가 신청 등록
 	 *
